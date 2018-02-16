@@ -1,0 +1,131 @@
+#include<iostream>
+using namespace std;
+class node{                     //creating a class node.
+    public:
+    int data;
+    node *next;
+        node()                  
+        {
+        data=0;
+        next=NULL;
+        }
+    };
+class linkedlist{
+    public:
+        node *head;
+        node *tail;
+        int n;
+        void display();
+        void insert(int data);
+        void sort();                            //sorting function.
+        int binary(node *head,int left,int right,int key);      //binarysearchfuncrtion.
+        linkedlist()                                
+        {
+            head=NULL ;
+            tail=NULL;
+            n=0;
+        }
+};
+void linkedlist::insert(int number)
+    {
+        node *temp=new node;
+        temp->data=number;
+        if(head==NULL)
+        {
+            head=temp;
+            tail=temp;
+            n++;
+        }
+        else
+        {
+            tail->next=temp;
+            tail=temp;
+            n++;
+        }
+}
+void linkedlist::display()
+    {
+    node *slider=head;
+    while(slider!=NULL)
+        {
+        cout<<slider->data;
+        cout<<"->";
+        slider=slider->next;
+        }
+    cout<<"nulL"<<endl;
+    }
+void linkedlist::sort()     
+    {
+    int stamp;
+    node *slider=head;
+        for(int i=0;i<n-1;i++)              //sorting by bubblesort.
+        {
+            for(int j=0;j<n-1-i;j++)
+            {
+            if(slider->data>(slider->next)->data)
+                {
+                stamp=slider->data;
+                slider->data=(slider->next)->data;
+                (slider->next)->data=stamp;
+                }
+            slider=slider->next;
+            }
+        slider=head;
+        }
+    }
+node* traversal(node *head,int pos) //a function for traversal.
+    {
+        node *slider=head;
+        for(int i=0;i<pos;i++)
+            slider=slider->next;
+    return slider;
+    }
+int linkedlist::binary(node *head,int left,int right,int num)   //binary  search function.
+    {
+        int mid=(right+left)/2;                     
+        node *slider=traversal(head,mid);       //assigning pointers to nodes to obtain their value.
+        node *slider1=traversal(head,left);
+        node *slider2=traversal(head,right);
+        if((slider2->data)>=num && (slider1->data)<=num)
+        {
+            if((slider->data)==num)
+            {
+            return mid;    
+            }    
+            else
+            {
+            if((slider->data)<num)
+                {
+                binary(head,mid+1,right,num);
+                }
+            else
+                {
+                binary(head,left,mid-1,num);
+                }
+            }
+        }
+        else 
+            return -2; 
+    }
+int main()            
+    {
+    linkedlist l;
+    l.insert(9);
+    l.insert(87);
+    l.insert(89);
+    l.insert(7);
+    l.insert(76);
+    l.insert(65);
+    l.insert(23423);
+    l.insert(754);
+    l.insert(8868);
+    l.insert(43);
+    l.display();
+    l.sort();
+    l.display();
+    int key;
+    cout<<"Enter key"<<endl;
+    cin>>key;
+    cout<<"The element "<<key<<" is found at "<<l.binary(l.head,0,9,key)+1;
+    return 0;
+    }
